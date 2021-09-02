@@ -45,6 +45,14 @@ ul {
                 align-items: center;
                 flex-grow: 1;
                 border: 0.2em solid blue;
+
+                &.good {
+                    background-color:  green;
+                }
+
+                &.bomb {
+                    background-color: red;
+                }
             }
         }
     }

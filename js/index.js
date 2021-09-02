@@ -3,13 +3,15 @@ const dom_Game = document.getElementById("game");
 let cellClicked = [];
 
 // Functions
-const clickEvent = (dom_Cell) => {
-    dom_Cell.addEventListener("click", (e) => {
+const clickEvent = (dom_Div) => {
+    dom_Div.addEventListener("click", (e) => {
         let id = e.target.getAttribute("id");
         console.log(id);
-        if (!cellClicked.includes(id)) alert(id);
-        cellClicked.push(id);
-        dom_Cell.style.backgroundColor = "red";
+        if (!cellClicked.includes(id)) {
+            alert(id);
+            cellClicked.push(id);
+            dom_Div.classList.add("good");
+        }
     })
 }
 
@@ -29,7 +31,7 @@ const drawGrid = (colSize) => {
         dom_Cell.style.width = "calc(100% / " + colSize + ")";
 
         // Click Event
-        clickEvent(dom_Cell);
+        clickEvent(dom_Div);
     }
 }
 
