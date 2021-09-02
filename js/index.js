@@ -1,12 +1,12 @@
 // DOM
 const dom_Game = document.getElementById("game");
 
-// Vars
-const bombs = 16;
+// Parametri
+const bombs = 1;
+let score = 0;
 let colSize = 10;
-let gridSize;
-let gameOver = false
-
+let gridSize = colSize * colSize;
+let gameOver = false;
 let cellClicked = [];
 let cellBombs = [];
 
@@ -42,10 +42,16 @@ const checkBombsAround = (id) => {
 
     log += "\nBombs around: " + counter;
 
-    document.getElementById(id).innerHTML = counter;
+    // document.getElementById(id).innerHTML = counter;
 
     // alert(log);
 
+}
+
+const discoverBombs = () => {
+    for (let i = 1; i <= gridSize; i++) {
+        if (cellBombs.includes(i)) document.getElementById(i).classList.add("bomb");
+    }
 }
 
 const clickEvent = (dom_Div) => {
@@ -54,18 +60,30 @@ const clickEvent = (dom_Div) => {
         let countBombs = 0;
         if (gameOver) return;
         if (!cellClicked.includes(id)) {
-            // alert("Cella: " + id + " Bomb: " + cellBombs.includes(id));
             cellClicked.push(id);
             if (!cellBombs.includes(id)) {
                 dom_Div.classList.add("good");
+                score++;
+                checkBombsAround(id);
+                if ((cellClicked.length + cellBombs.length) >= gridSize) {
+                    gameOver = true;
+                    let log = "Hai vinto!";
+                    log += "\nPunteggio: " + score;
+                    discoverBombs();
+                    setTimeout(() => {
+                        alert(log);
+                    }, 100);
+                }
 
-                // Check Bombs Around
-                countBombs += checkBombsAround(id);
             }
             else {
                 dom_Div.classList.add("bomb");
-                // alert("gameover");
                 gameOver = true;
+                let log = "Hai perso!";
+                log += "\nPunteggio: " + score;
+                setTimeout(() => {
+                    alert(log);
+                }, 100);
             }
         }
     })
@@ -94,7 +112,7 @@ const drawGrid = (colSize) => {
 const setBombs = () => {
     let currentBomb = 1;
     while (currentBomb <= bombs) {
-        let positionBomb = Math.floor(Math.random() * gridSize) + 1;
+        let positionBomb = 5 /*Math.floor(Math.random() * gridSize) + 1*/;
         if (!cellBombs.includes(positionBomb)) {
             cellBombs.push(positionBomb);
             currentBomb++;
@@ -107,7 +125,6 @@ const createGrid = (level) => {
     if (level > 1) colSize -= 2;
     if (level > 2) colSize -= 3;
 
-    // alert("colSize: " + gridSize)
     drawGrid(colSize);
     setBombs();
 }

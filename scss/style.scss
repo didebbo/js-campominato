@@ -25,7 +25,7 @@ ul {
     > ul {
         display: flex;
         flex-wrap: wrap;
-        max-width: (100vmin / 1.2);
+        width: (100vmin / 1.2);
         border: 0.2em solid blue;
 
         > li {
