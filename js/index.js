@@ -8,16 +8,21 @@ let gridSize;
 let cellClicked = [];
 let cellBombs = [];
 
+// for (let i = 1; i <= gridSize; i++) {
+//     let bombCel = document.getElementById(i);
+//     console.log(bombCel.getAttribute("id"));
+//     if (cellBombs.includes(i)) bombCel.classList.add("bomb");
+// }
 
 // Functions
 const clickEvent = (dom_Div) => {
     dom_Div.addEventListener("click", (e) => {
         let id = e.target.getAttribute("id");
-        console.log(id);
         if (!cellClicked.includes(id)) {
-            alert(id);
+            alert("Cella: " + id + " Bomb: " + cellBombs.includes(parseInt(id)));
             cellClicked.push(id);
-            dom_Div.classList.add("good");
+            if (!cellBombs.includes(parseInt(id))) dom_Div.classList.add("good");
+            else dom_Div.classList.add("bomb");
         }
     })
 }
@@ -49,16 +54,9 @@ const setBombs = () => {
         if (!cellBombs.includes(positionBomb)) {
             cellBombs.push(positionBomb);
             currentBomb++;
-            // console.log("aggiungo bomba a " + currentBomb);
         }
     }
     console.log(cellBombs);
-
-    for (let i = 1; i <= gridSize; i++) {
-        let bombCel = document.getElementById(i);
-        console.log(bombCel.getAttribute("id"));
-        if (cellBombs.includes(i)) bombCel.classList.add("bomb");
-    }
 }
 
 const createGrid = (level) => {
