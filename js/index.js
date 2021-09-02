@@ -1,10 +1,15 @@
 // DOM
 const dom_Game = document.getElementById("game");
+let cellClicked = [];
 
 // Functions
 const clickEvent = (dom_Cell) => {
     dom_Cell.addEventListener("click", (e) => {
-        console.log(e.target.getAttribute("id"));
+        let id = e.target.getAttribute("id");
+        console.log(id);
+        if (!cellClicked.includes(id)) alert(id);
+        cellClicked.push(id);
+        dom_Cell.style.backgroundColor = "red";
     })
 }
 
