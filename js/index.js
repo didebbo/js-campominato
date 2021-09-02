@@ -1,6 +1,13 @@
 // DOM
 const dom_Game = document.getElementById("game");
+
+// Vars
+const bombs = 16;
+let gridSize;
+
 let cellClicked = [];
+let cellBombs = [];
+
 
 // Functions
 const clickEvent = (dom_Div) => {
@@ -16,7 +23,7 @@ const clickEvent = (dom_Div) => {
 }
 
 const drawGrid = (colSize) => {
-    let gridSize = colSize * colSize;
+    gridSize = colSize * colSize;
     let dom_Grid = document.createElement("ul");
     dom_Game.appendChild(dom_Grid);
     for (let i = 1; i <= gridSize; i++) {
@@ -35,6 +42,22 @@ const drawGrid = (colSize) => {
     }
 }
 
+const setBombs = () => {
+    let currentBomb = 1;
+    while (currentBomb <= bombs) {
+        let positionBomb = Math.floor(Math.random() * gridSize) + 1;
+        if (!cellBombs.includes(positionBomb)) {
+            cellBombs.push(positionBomb);
+            currentBomb++;
+        }
+    }
+    console.log(cellBombs);
+    for (let i = 1; i <= cellBombs.length; i++) {
+        let bombCel = document.getElementById(i);
+        if (cellBombs.includes(i)) bombCel.classList.add("bomb");
+    }
+}
+
 const createGrid = (level) => {
     let colSize = 10;
     if (level > 1) colSize -= 2;
@@ -42,6 +65,7 @@ const createGrid = (level) => {
 
     // alert("colSize: " + gridSize)
     drawGrid(colSize);
+    setBombs();
 }
 
 const main = () => {
