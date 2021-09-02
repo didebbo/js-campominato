@@ -2,7 +2,7 @@
 const dom_Game = document.getElementById("game");
 
 // Parametri
-const bombs = 1;
+const bombs = 16;
 let score = 0;
 let colSize = 10;
 let gridSize = colSize * colSize;
@@ -42,9 +42,9 @@ const checkBombsAround = (id) => {
 
     log += "\nBombs around: " + counter;
 
-    document.getElementById(id).innerHTML = counter;
+    // document.getElementById(id).innerHTML = counter;
 
-    alert(log);
+    // alert(log);
 
 }
 
@@ -112,7 +112,7 @@ const drawGrid = (colSize) => {
 const setBombs = () => {
     let currentBomb = 1;
     while (currentBomb <= bombs) {
-        let positionBomb = 5 /*Math.floor(Math.random() * gridSize) + 1*/;
+        let positionBomb = Math.floor(Math.random() * gridSize) + 1;
         if (!cellBombs.includes(positionBomb)) {
             cellBombs.push(positionBomb);
             currentBomb++;
