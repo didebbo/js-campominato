@@ -1,5 +1,15 @@
 * { margin: 0; padding: 0; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
-body { background-color: black; font-size: 3vmin; font-family: monospace; }
+body { font-size: 3vmin; font-family: monospace; }
 
-#game { display: none; }
+ul { list-style: none; }
+
+#game { width: 100%; height: 100vh; display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; align-items: center; }
+
+#game > ul { display: -webkit-box; display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; max-width: 83.33333vmin; border: 0.2em solid blue; }
+
+#game > ul > li { display: -webkit-box; display: -ms-flexbox; display: flex; border: 0.2em solid orange; }
+
+#game > ul > li::after { display: block; content: ""; padding-top: 100%; }
+
+#game > ul > li > div { display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; align-items: center; -webkit-box-flex: 1; -ms-flex-positive: 1; flex-grow: 1; border: 0.2em solid blue; }
