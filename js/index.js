@@ -49,11 +49,14 @@ const setBombs = () => {
         if (!cellBombs.includes(positionBomb)) {
             cellBombs.push(positionBomb);
             currentBomb++;
+            // console.log("aggiungo bomba a " + currentBomb);
         }
     }
     console.log(cellBombs);
-    for (let i = 1; i <= cellBombs.length; i++) {
+
+    for (let i = 1; i <= gridSize; i++) {
         let bombCel = document.getElementById(i);
+        console.log(bombCel.getAttribute("id"));
         if (cellBombs.includes(i)) bombCel.classList.add("bomb");
     }
 }
