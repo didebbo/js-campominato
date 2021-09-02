@@ -18,9 +18,21 @@ const checkBombsAround = (id) => {
     // Up
     log += "\nUp: " + (id - colSize);
     if (cellBombs.includes(id - colSize)) counter++;
+    // UpLeft
+    log += "\nUpLeft: " + (id - colSize - 1);
+    if (cellBombs.includes(id - colSize - 1)) counter++;
+    // UpRight
+    log += "\nUpRight: " + (id - colSize + 1);
+    if (cellBombs.includes(id - colSize + 1)) counter++;
     // Down
     log += "\nDown: " + (id + colSize);
     if (cellBombs.includes(id + colSize)) counter++;
+    // DownLeft
+    log += "\nDownLeft: " + (id + colSize - 1);
+    if (cellBombs.includes(id + colSize - 1)) counter++;
+    // DownRight
+    log += "\nDownRight: " + (id + colSize + 1);
+    if (cellBombs.includes(id + colSize + 1)) counter++;
     // Left
     log += "\nLeft: " + (id - 1);
     if (cellBombs.includes(id - 1)) counter++;
