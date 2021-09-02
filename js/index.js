@@ -1,0 +1,1 @@
+console.log("Core gamve works well!");
