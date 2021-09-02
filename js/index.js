@@ -42,9 +42,9 @@ const checkBombsAround = (id) => {
 
     log += "\nBombs around: " + counter;
 
-    // document.getElementById(id).innerHTML = counter;
+    document.getElementById(id).innerHTML = counter;
 
-    // alert(log);
+    alert(log);
 
 }
 
