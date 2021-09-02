@@ -3,26 +3,58 @@ const dom_Game = document.getElementById("game");
 
 // Vars
 const bombs = 16;
+let colSize = 10;
 let gridSize;
+let gameOver = false
 
 let cellClicked = [];
 let cellBombs = [];
 
-// for (let i = 1; i <= gridSize; i++) {
-//     let bombCel = document.getElementById(i);
-//     console.log(bombCel.getAttribute("id"));
-//     if (cellBombs.includes(i)) bombCel.classList.add("bomb");
-// }
-
 // Functions
+
+const checkBombsAround = (id) => {
+    let counter = 0;
+    let log = "Cell: " + id;
+    // Up
+    log += "\nUp: " + (id - colSize);
+    if (cellBombs.includes(id - colSize)) counter++;
+    // Down
+    log += "\nDown: " + (id + colSize);
+    if (cellBombs.includes(id + colSize)) counter++;
+    // Left
+    log += "\nLeft: " + (id - 1);
+    if (cellBombs.includes(id - 1)) counter++;
+    // Right
+    log += "\nRight: " + (id + 1);
+    if (cellBombs.includes(id + 1)) counter++;
+
+    log += "\nBombs around: " + counter;
+
+    document.getElementById(id).innerHTML = counter;
+
+    // alert(log);
+
+}
+
 const clickEvent = (dom_Div) => {
     dom_Div.addEventListener("click", (e) => {
-        let id = e.target.getAttribute("id");
+        let id = parseInt(e.target.getAttribute("id"));
+        let countBombs = 0;
+        if (gameOver) return;
         if (!cellClicked.includes(id)) {
-            alert("Cella: " + id + " Bomb: " + cellBombs.includes(parseInt(id)));
+            // alert("Cella: " + id + " Bomb: " + cellBombs.includes(id));
             cellClicked.push(id);
-            if (!cellBombs.includes(parseInt(id))) dom_Div.classList.add("good");
-            else dom_Div.classList.add("bomb");
+            if (!cellBombs.includes(id)) {
+                dom_Div.classList.add("good");
+
+                // Check Bombs Around
+                countBombs += checkBombsAround(id);
+            }
+            else {
+                dom_Div.classList.add("bomb");
+                // alert("gameover");
+                gameOver = true;
+            }
         }
     })
 }
@@ -60,7 +92,6 @@ const setBombs = () => {
 }
 
 const createGrid = (level) => {
-    let colSize = 10;
     if (level > 1) colSize -= 2;
     if (level > 2) colSize -= 3;
 
