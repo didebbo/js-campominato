@@ -2,6 +2,12 @@
 const dom_Game = document.getElementById("game");
 
 // Functions
+const clickEvent = (dom_Cell) => {
+    dom_Cell.addEventListener("click", (e) => {
+        console.log(e.target.getAttribute("id"));
+    })
+}
+
 const drawGrid = (colSize) => {
     let gridSize = colSize * colSize;
     let dom_Grid = document.createElement("ul");
@@ -9,12 +15,16 @@ const drawGrid = (colSize) => {
     for (let i = 1; i <= gridSize; i++) {
         let dom_Cell = document.createElement("li");
         let dom_Div = document.createElement("div");
-        dom_Div.innerHTML = i;
+        dom_Div.setAttribute("id", i);
+        // dom_Div.innerHTML = i;
         dom_Cell.appendChild(dom_Div);
         dom_Grid.appendChild(dom_Cell);
 
         // Style 
         dom_Cell.style.width = "calc(100% / " + colSize + ")";
+
+        // Click Event
+        clickEvent(dom_Cell);
     }
 }
 
