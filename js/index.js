@@ -2,7 +2,7 @@
 const dom_Game = document.getElementById("game");
 
 // Parametri
-const bombs = 1;
+const bombs = 16;
 let score = 0;
 let colSize = 10;
 let gridSize = colSize * colSize;
