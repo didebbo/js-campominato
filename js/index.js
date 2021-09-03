@@ -9,6 +9,7 @@ let gridSize = colSize * colSize;
 let gameOver = false;
 let cellClicked = [];
 let cellBombs = [];
+let ricorsive = 8;
 
 // Functions
 
@@ -108,18 +109,18 @@ const checkBombsAround = (dom_Td) => {
 
     log += "\nBombs around: " + counter;
 
-    // dom_Td.innerHTML = counter;
+    dom_Td.innerHTML = counter;
 
     // FIXME Errore ricorsivo
-    if (counter != 0) dom_Td.innerHTML = counter;
-    else clickCellsAround(dom_Td);
+    // if (counter != 0) dom_Td.innerHTML = counter;
+    // else clickCellsAround(dom_Td);
 
     // console.log(log);
 
 }
 
 const discoverBombs = () => {
-    console.log(document.getElementsByTagName("table")[0]);
+    // console.log(document.getElementsByTagName("table")[0]);
     for (let y = 0; y < colSize; y++) {
         for (let x = 0; x < colSize; x++) {
             let el = document.getElementsByTagName("table")[0].children[y].children[x];
@@ -130,6 +131,7 @@ const discoverBombs = () => {
 }
 
 const isClicked = (dom_Td) => {
+
     let rowIndex = parseInt(dom_Td.parentNode.rowIndex + 1);
     let cellIndex = parseInt(dom_Td.cellIndex + 1);
     for (let i = 0; i < cellClicked.length; i++) {
@@ -142,7 +144,7 @@ const isClicked = (dom_Td) => {
 
 const clickEvent = (dom_Td) => {
     dom_Td.addEventListener("click", () => {
-        if (isClicked(dom_Td || gameOver)) return;
+        if (isClicked(dom_Td) || gameOver) return;
         if (!parseInt(dom_Td.dataset.bomb)) {
             dom_Td.classList.add("good");
             score++;
