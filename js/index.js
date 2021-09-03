@@ -161,6 +161,7 @@ const clickEvent = (dom_Td) => {
                 gameOver = true;
                 let log = "Hai perso!";
                 log += "\nPunteggio: " + score;
+                discoverBombs();
                 setTimeout(() => {
                     alert(log);
                     location.reload();
