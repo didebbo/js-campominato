@@ -9,112 +9,206 @@ let gridSize = colSize * colSize;
 let gameOver = false;
 let cellClicked = [];
 let cellBombs = [];
+let ricorsive = 8;
 
 // Functions
 
-const checkBombsAround = (id) => {
-    let counter = 0;
-    let log = "Cell: " + id;
+const clickCellsAround = (dom_Td) => {
+    let rowIndex = parseInt(dom_Td.parentNode.rowIndex);
+    let log_rowIndex = rowIndex + 1;
+    let cellIndex = parseInt(dom_Td.cellIndex);
+    let log_cellIndex = cellIndex + 1;
+    let min = 0;
+    let max = colSize - 1;
+
+    let log = "[Target] rowIndex: " + log_rowIndex + " cellIndex: " + log_cellIndex;
+
     // Up
-    log += "\nUp: " + (id - colSize);
-    if (cellBombs.includes(id - colSize)) counter++;
+    if (rowIndex > min) document.getElementsByTagName("table")[0].children[rowIndex - 1].children[cellIndex].click();
+
     // UpLeft
-    log += "\nUpLeft: " + (id - colSize - 1);
-    if (cellBombs.includes(id - colSize - 1)) counter++;
+    if (rowIndex > min && cellIndex > min) document.getElementsByTagName("table")[0].children[rowIndex - 1].children[cellIndex - 1].click();
+
     // UpRight
-    log += "\nUpRight: " + (id - colSize + 1);
-    if (cellBombs.includes(id - colSize + 1)) counter++;
+    if (rowIndex > min && cellIndex < max) document.getElementsByTagName("table")[0].children[rowIndex - 1].children[cellIndex + 1].click();
+
     // Down
-    log += "\nDown: " + (id + colSize);
-    if (cellBombs.includes(id + colSize)) counter++;
+    if (rowIndex < max) document.getElementsByTagName("table")[0].children[rowIndex + 1].children[cellIndex].click();
+
     // DownLeft
-    log += "\nDownLeft: " + (id + colSize - 1);
-    if (cellBombs.includes(id + colSize - 1)) counter++;
+    if (rowIndex < max && cellIndex > min) document.getElementsByTagName("table")[0].children[rowIndex + 1].children[cellIndex - 1].click();
+
     // DownRight
-    log += "\nDownRight: " + (id + colSize + 1);
-    if (cellBombs.includes(id + colSize + 1)) counter++;
+    if (rowIndex < max && cellIndex < max) document.getElementsByTagName("table")[0].children[rowIndex + 1].children[cellIndex + 1].click();
+
     // Left
-    log += "\nLeft: " + (id - 1);
-    if (cellBombs.includes(id - 1)) counter++;
+    if (cellIndex > min) document.getElementsByTagName("table")[0].children[rowIndex].children[cellIndex - 1].click();
+
     // Right
-    log += "\nRight: " + (id + 1);
-    if (cellBombs.includes(id + 1)) counter++;
+    if (cellIndex < max) document.getElementsByTagName("table")[0].children[rowIndex].children[cellIndex + 1].click();
+
+}
+
+const checkBombsAround = (dom_Td) => {
+    let counter = 0;
+    let rowIndex = parseInt(dom_Td.parentNode.rowIndex);
+    let log_rowIndex = rowIndex + 1;
+    let cellIndex = parseInt(dom_Td.cellIndex);
+    let log_cellIndex = cellIndex + 1;
+    let min = 0;
+    let max = colSize - 1;
+
+    let log = "[Target] rowIndex: " + log_rowIndex + " cellIndex: " + log_cellIndex;
+
+    // Up
+    if (rowIndex > min) {
+        log += "\n[Up] rowIndex: " + (log_rowIndex - 1) + " cellIndex: " + (log_cellIndex);
+        if (parseInt(document.getElementsByTagName("table")[0].children[rowIndex - 1].children[cellIndex].dataset.bomb)) counter++;
+    }
+    // UpLeft
+    if (rowIndex > min && cellIndex > min) {
+        log += "\n[UpLeft] rowIndex: " + (log_rowIndex - 1) + " cellIndex: " + (log_cellIndex - 1);
+        if (parseInt(document.getElementsByTagName("table")[0].children[rowIndex - 1].children[cellIndex - 1].dataset.bomb)) counter++;
+    }
+
+    //UpRight
+    if (rowIndex > min && cellIndex < max) {
+        log += "\n[UpRight] rowIndex: " + (log_rowIndex - 1) + " cellIndex: " + (log_cellIndex + 1);
+        if (parseInt(document.getElementsByTagName("table")[0].children[rowIndex - 1].children[cellIndex + 1].dataset.bomb)) counter++;
+    }
+
+    // Down
+    if (rowIndex < max) {
+        log += "\n[Down] rowIndex: " + (log_rowIndex + 1) + " cellIndex: " + (log_cellIndex);
+        if (parseInt(document.getElementsByTagName("table")[0].children[rowIndex + 1].children[cellIndex].dataset.bomb)) counter++;
+    }
+
+    // DownLeft
+    if (rowIndex < max && cellIndex > min) {
+        log += "\n[DownLeft] rowIndex: " + (log_rowIndex + 1) + " cellIndex: " + (log_cellIndex - 1);
+        if (parseInt(document.getElementsByTagName("table")[0].children[rowIndex + 1].children[cellIndex - 1].dataset.bomb)) counter++;
+    }
+
+    // DownRight
+    if (rowIndex < max && cellIndex < max) {
+        log += "\n[DownRight] rowIndex: " + (log_rowIndex + 1) + " cellIndex: " + (log_cellIndex + 1);
+        if (parseInt(document.getElementsByTagName("table")[0].children[rowIndex + 1].children[cellIndex + 1].dataset.bomb)) counter++;
+    }
+
+    // Left
+    if (cellIndex > min) {
+        log += "\n[Left] rowIndex: " + (log_rowIndex) + " cellIndex: " + (log_cellIndex - 1);
+        if (parseInt(document.getElementsByTagName("table")[0].children[rowIndex].children[cellIndex - 1].dataset.bomb)) counter++;
+    }
+
+    // Right
+    if (cellIndex < max) {
+        log += "\n[Right] rowIndex: " + (rowIndex) + " cellIndex: " + (cellIndex + 1);
+        if (parseInt(document.getElementsByTagName("table")[0].children[rowIndex].children[cellIndex + 1].dataset.bomb)) counter++;
+    }
 
     log += "\nBombs around: " + counter;
 
-    // document.getElementById(id).innerHTML = counter;
+    dom_Td.innerHTML = counter;
 
-    // alert(log);
+    // FIXME Errore ricorsivo
+    // if (counter != 0) dom_Td.innerHTML = counter;
+    // else clickCellsAround(dom_Td);
+
+    // console.log(log);
 
 }
 
 const discoverBombs = () => {
-    for (let i = 1; i <= gridSize; i++) {
-        if (cellBombs.includes(i)) document.getElementById(i).classList.add("bomb");
+    // console.log(document.getElementsByTagName("table")[0]);
+    for (let y = 0; y < colSize; y++) {
+        for (let x = 0; x < colSize; x++) {
+            let el = document.getElementsByTagName("table")[0].children[y].children[x];
+            if (parseInt(el.dataset.bomb)) el.classList.add("boom");
+            // console.log(y, x, el);
+        }
     }
 }
 
-const clickEvent = (dom_Div) => {
-    dom_Div.addEventListener("click", (e) => {
-        let id = parseInt(e.target.getAttribute("id"));
-        let countBombs = 0;
-        if (gameOver) return;
-        if (!cellClicked.includes(id)) {
-            cellClicked.push(id);
-            if (!cellBombs.includes(id)) {
-                dom_Div.classList.add("good");
-                score++;
-                checkBombsAround(id);
-                if ((cellClicked.length + cellBombs.length) >= gridSize) {
-                    gameOver = true;
-                    let log = "Hai vinto!";
-                    log += "\nPunteggio: " + score;
-                    discoverBombs();
-                    setTimeout(() => {
-                        alert(log);
-                    }, 100);
-                }
+const isClicked = (dom_Td) => {
 
-            }
-            else {
-                dom_Div.classList.add("bomb");
+    let rowIndex = parseInt(dom_Td.parentNode.rowIndex + 1);
+    let cellIndex = parseInt(dom_Td.cellIndex + 1);
+    for (let i = 0; i < cellClicked.length; i++) {
+        let el = cellClicked[i];
+        if (el[0] == rowIndex && el[1] == cellIndex) return true;
+    }
+    cellClicked.push([rowIndex, cellIndex]);
+    return false;
+}
+
+const clickEvent = (dom_Td) => {
+    dom_Td.addEventListener("click", () => {
+        if (isClicked(dom_Td) || gameOver) return;
+        if (!parseInt(dom_Td.dataset.bomb)) {
+            dom_Td.classList.add("good");
+            score++;
+            console.log(score);
+            checkBombsAround(dom_Td);
+            if ((cellClicked.length + cellBombs.length) >= gridSize) {
                 gameOver = true;
-                let log = "Hai perso!";
+                let log = "Hai vinto!";
                 log += "\nPunteggio: " + score;
+                discoverBombs();
                 setTimeout(() => {
                     alert(log);
+                    location.reload();
                 }, 100);
             }
+        }
+        else {
+            dom_Td.classList.add("boom");
+            gameOver = true;
+            let log = "Hai perso!";
+            log += "\nPunteggio: " + score;
+            discoverBombs();
+            setTimeout(() => {
+                alert(log);
+                location.reload();
+            }, 100);
         }
     })
 }
 
-const drawGrid = (colSize) => {
-    gridSize = colSize * colSize;
-    let dom_Grid = document.createElement("ul");
-    dom_Game.appendChild(dom_Grid);
-    for (let i = 1; i <= gridSize; i++) {
-        let dom_Cell = document.createElement("li");
-        let dom_Div = document.createElement("div");
-        dom_Div.setAttribute("id", i);
-        // dom_Div.innerHTML = i;
-        dom_Cell.appendChild(dom_Div);
-        dom_Grid.appendChild(dom_Cell);
+const genGrid = () => {
+    let dom_Table = document.createElement("table");
+    let dom_Tr;
+    let dom_Td;
+    let counter = 1;
+    dom_Game.appendChild(dom_Table);
+    for (let y = 0; y < colSize; y++) {
+        dom_Tr = document.createElement("tr");
+        for (let x = 0; x < colSize; x++) {
+            dom_Td = document.createElement("td");
+            dom_Td.dataset.y = y;
+            dom_Td.dataset.x = x;
+            if (cellBombs.includes(counter)) dom_Td.dataset.bomb = 1;
+            else dom_Td.dataset.bomb = 0;
+            dom_Tr.appendChild(dom_Td);
+            clickEvent(dom_Td);
+            counter++;
+        }
+        dom_Table.appendChild(dom_Tr);
 
         // Style 
-        dom_Cell.style.width = "calc(100% / " + colSize + ")";
-
-        // Click Event
-        clickEvent(dom_Div);
+        dom_Td.style.width = "calc(100% / " + colSize + ")";
+        dom_Td.style.height = "calc(100% / " + colSize + ")";
     }
 }
 
-const setBombs = () => {
+const genBombs = () => {
+    gridSize = colSize * colSize;
     let currentBomb = 1;
     while (currentBomb <= bombs) {
         let positionBomb = Math.floor(Math.random() * gridSize) + 1;
         if (!cellBombs.includes(positionBomb)) {
             cellBombs.push(positionBomb);
+            cellBombs.sort(function (a, b) { return a - b });
             currentBomb++;
         }
     }
@@ -125,8 +219,8 @@ const createGrid = (level) => {
     if (level > 1) colSize -= 2;
     if (level > 2) colSize -= 3;
 
-    drawGrid(colSize);
-    setBombs();
+    genBombs();
+    genGrid();
 }
 
 const main = () => {
@@ -137,6 +231,7 @@ const main = () => {
     while (isNaN(level) || level < 1 || level > 3);
     createGrid(level);
 }
+
 
 // Main
 main();
