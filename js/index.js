@@ -2,7 +2,7 @@
 const dom_Game = document.getElementById("game");
 
 // Parametri
-const bombs = 16;
+const bombs = 1;
 let score = 0;
 let colSize = 10;
 let gridSize = colSize * colSize;
@@ -108,8 +108,11 @@ const checkBombsAround = (dom_Td) => {
 
     log += "\nBombs around: " + counter;
 
-    if (counter == 0) clickCellsAround(dom_Td);
-    else dom_Td.innerHTML = counter;
+    // dom_Td.innerHTML = counter;
+
+    // FIXME Errore ricorsivo
+    if (counter != 0) dom_Td.innerHTML = counter;
+    else clickCellsAround(dom_Td);
 
     // console.log(log);
 
@@ -139,27 +142,15 @@ const isClicked = (dom_Td) => {
 
 const clickEvent = (dom_Td) => {
     dom_Td.addEventListener("click", () => {
-        if (gameOver) return;
-        if (!isClicked(dom_Td)) {
-            if (!parseInt(dom_Td.dataset.bomb)) {
-                dom_Td.classList.add("good");
-                score++;
-                checkBombsAround(dom_Td);
-                if ((cellClicked.length + cellBombs.length) >= gridSize) {
-                    gameOver = true;
-                    let log = "Hai vinto!";
-                    log += "\nPunteggio: " + score;
-                    discoverBombs();
-                    setTimeout(() => {
-                        alert(log);
-                        location.reload();
-                    }, 100);
-                }
-            }
-            else {
-                dom_Td.classList.add("boom");
+        if (isClicked(dom_Td || gameOver)) return;
+        if (!parseInt(dom_Td.dataset.bomb)) {
+            dom_Td.classList.add("good");
+            score++;
+            console.log(score);
+            checkBombsAround(dom_Td);
+            if ((cellClicked.length + cellBombs.length) >= gridSize) {
                 gameOver = true;
-                let log = "Hai perso!";
+                let log = "Hai vinto!";
                 log += "\nPunteggio: " + score;
                 discoverBombs();
                 setTimeout(() => {
@@ -167,6 +158,17 @@ const clickEvent = (dom_Td) => {
                     location.reload();
                 }, 100);
             }
+        }
+        else {
+            dom_Td.classList.add("boom");
+            gameOver = true;
+            let log = "Hai perso!";
+            log += "\nPunteggio: " + score;
+            discoverBombs();
+            setTimeout(() => {
+                alert(log);
+                location.reload();
+            }, 100);
         }
     })
 }
@@ -181,10 +183,12 @@ const genGrid = () => {
         dom_Tr = document.createElement("tr");
         for (let x = 0; x < colSize; x++) {
             dom_Td = document.createElement("td");
+            dom_Td.dataset.y = y;
+            dom_Td.dataset.x = x;
             if (cellBombs.includes(counter)) dom_Td.dataset.bomb = 1;
             else dom_Td.dataset.bomb = 0;
-            clickEvent(dom_Td);
             dom_Tr.appendChild(dom_Td);
+            clickEvent(dom_Td);
             counter++;
         }
         dom_Table.appendChild(dom_Tr);
