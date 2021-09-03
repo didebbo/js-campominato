@@ -10,6 +10,8 @@ ul { list-style: none; }
 
 #game > table tr > td { border: 0.2em solid blue; }
 
+#game > table tr > td:empty::before { content: "\00a0"; }
+
 #game > table tr > td.good { background-color: green; }
 
 #game > table tr > td.boom { background-color: red; }

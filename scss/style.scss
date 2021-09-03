@@ -38,6 +38,13 @@ ul {
             > td {
                 border: 0.2em solid blue;
 
+                &:empty {
+
+                    &::before {
+                        content: "\00a0";
+                    }
+                }
+
                 &.good {
                     background-color:  green;
                 }
