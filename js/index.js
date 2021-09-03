@@ -12,6 +12,42 @@ let cellBombs = [];
 
 // Functions
 
+const clickCellsAround = (dom_Td) => {
+    let rowIndex = parseInt(dom_Td.parentNode.rowIndex);
+    let log_rowIndex = rowIndex + 1;
+    let cellIndex = parseInt(dom_Td.cellIndex);
+    let log_cellIndex = cellIndex + 1;
+    let min = 0;
+    let max = colSize - 1;
+
+    let log = "[Target] rowIndex: " + log_rowIndex + " cellIndex: " + log_cellIndex;
+
+    // Up
+    if (rowIndex > min) document.getElementsByTagName("table")[0].children[rowIndex - 1].children[cellIndex].click();
+
+    // UpLeft
+    if (rowIndex > min && cellIndex > min) document.getElementsByTagName("table")[0].children[rowIndex - 1].children[cellIndex - 1].click();
+
+    // UpRight
+    if (rowIndex > min && cellIndex < max) document.getElementsByTagName("table")[0].children[rowIndex - 1].children[cellIndex + 1].click();
+
+    // Down
+    if (rowIndex < max) document.getElementsByTagName("table")[0].children[rowIndex + 1].children[cellIndex].click();
+
+    // DownLeft
+    if (rowIndex < max && cellIndex > min) document.getElementsByTagName("table")[0].children[rowIndex + 1].children[cellIndex - 1].click();
+
+    // DownRight
+    if (rowIndex < max && cellIndex < max) document.getElementsByTagName("table")[0].children[rowIndex + 1].children[cellIndex + 1].click();
+
+    // Left
+    if (cellIndex > min) document.getElementsByTagName("table")[0].children[rowIndex].children[cellIndex - 1].click();
+
+    // Right
+    if (cellIndex < max) document.getElementsByTagName("table")[0].children[rowIndex].children[cellIndex + 1].click();
+
+}
+
 const checkBombsAround = (dom_Td) => {
     let counter = 0;
     let rowIndex = parseInt(dom_Td.parentNode.rowIndex);
@@ -72,7 +108,8 @@ const checkBombsAround = (dom_Td) => {
 
     log += "\nBombs around: " + counter;
 
-    dom_Td.innerHTML = counter;
+    if (counter == 0) clickCellsAround(dom_Td);
+    else dom_Td.innerHTML = counter;
 
     // console.log(log);
 
