@@ -10,7 +10,7 @@ ul { list-style: none; }
 
 #game > ul > li { width: 100%; display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-pack: start; -ms-flex-pack: start; justify-content: flex-start; }
 
-#game > ul > li > div { border: 0.2em solid blue; display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; align-items: center; color: white; /* &:empty { &::before { content: "\00a0"; } } */ }
+#game > ul > li > div { border: 0.2em solid blue; display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; align-items: center; color: white; }
 
 #game > ul > li > div.good { background-color: green; }
 
