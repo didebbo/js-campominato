@@ -1,6 +1,6 @@
 // DOM
 const dom_Game = document.getElementById("game");
-
+// Test
 // Parametri
 const bombs = 16;
 let score = 0;
