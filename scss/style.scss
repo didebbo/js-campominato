@@ -42,6 +42,10 @@ ul {
 
             > div {
                 border: 0.2em solid blue;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: white;
                 // flex-grow: 1;
                 // width: (100% / 10);
 

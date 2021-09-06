@@ -49,9 +49,9 @@ const clickCellsAround = (dom_Td) => {
 
 }
 
-const checkBombsAround = (dom_Td) => {
+const checkBombsAround = (dom_Tr, dom_Td) => {
     let counter = 0;
-    let rowIndex = parseInt(dom_Td.dataset.y);
+    let rowIndex = parseInt(dom_Tr.dataset.y);
     let log_rowIndex = rowIndex + 1;
     let cellIndex = parseInt(dom_Td.dataset.x);
     let log_cellIndex = cellIndex + 1;
@@ -63,48 +63,49 @@ const checkBombsAround = (dom_Td) => {
     // Up
     if (rowIndex > min) {
         log += "\n[Up] rowIndex: " + (log_rowIndex - 1) + " cellIndex: " + (log_cellIndex);
-        if (parseInt(document.getElementsByTagName("table")[0].children[rowIndex - 1].children[cellIndex].dataset.bomb)) counter++;
+        if (parseInt(document.querySelector("ul").querySelector("li[data-y='" + (rowIndex - 1) + "']").querySelector("div[data-x='" + cellIndex + "']").dataset.bomb)) counter++;
     }
+
     // UpLeft
     if (rowIndex > min && cellIndex > min) {
         log += "\n[UpLeft] rowIndex: " + (log_rowIndex - 1) + " cellIndex: " + (log_cellIndex - 1);
-        if (parseInt(document.getElementsByTagName("table")[0].children[rowIndex - 1].children[cellIndex - 1].dataset.bomb)) counter++;
+        if (parseInt(document.querySelector("ul").querySelector("li[data-y='" + (rowIndex - 1) + "']").querySelector("div[data-x='" + (cellIndex - 1) + "']").dataset.bomb)) counter++;
     }
 
     //UpRight
     if (rowIndex > min && cellIndex < max) {
         log += "\n[UpRight] rowIndex: " + (log_rowIndex - 1) + " cellIndex: " + (log_cellIndex + 1);
-        if (parseInt(document.getElementsByTagName("table")[0].children[rowIndex - 1].children[cellIndex + 1].dataset.bomb)) counter++;
+        if (parseInt(document.querySelector("ul").querySelector("li[data-y='" + (rowIndex - 1) + "']").querySelector("div[data-x='" + (cellIndex + 1) + "']").dataset.bomb)) counter++;
     }
 
     // Down
     if (rowIndex < max) {
         log += "\n[Down] rowIndex: " + (log_rowIndex + 1) + " cellIndex: " + (log_cellIndex);
-        if (parseInt(document.getElementsByTagName("table")[0].children[rowIndex + 1].children[cellIndex].dataset.bomb)) counter++;
+        if (parseInt(document.querySelector("ul").querySelector("li[data-y='" + (rowIndex + 1) + "']").querySelector("div[data-x='" + cellIndex + "']").dataset.bomb)) counter++;
     }
 
     // DownLeft
     if (rowIndex < max && cellIndex > min) {
         log += "\n[DownLeft] rowIndex: " + (log_rowIndex + 1) + " cellIndex: " + (log_cellIndex - 1);
-        if (parseInt(document.getElementsByTagName("table")[0].children[rowIndex + 1].children[cellIndex - 1].dataset.bomb)) counter++;
+        if (parseInt(document.querySelector("ul").querySelector("li[data-y='" + (rowIndex + 1) + "']").querySelector("div[data-x='" + (cellIndex - 1) + "']").dataset.bomb)) counter++;
     }
 
     // DownRight
     if (rowIndex < max && cellIndex < max) {
         log += "\n[DownRight] rowIndex: " + (log_rowIndex + 1) + " cellIndex: " + (log_cellIndex + 1);
-        if (parseInt(document.getElementsByTagName("table")[0].children[rowIndex + 1].children[cellIndex + 1].dataset.bomb)) counter++;
+        if (parseInt(document.querySelector("ul").querySelector("li[data-y='" + (rowIndex + 1) + "']").querySelector("div[data-x='" + (cellIndex + 1) + "']").dataset.bomb)) counter++;
     }
 
     // Left
     if (cellIndex > min) {
         log += "\n[Left] rowIndex: " + (log_rowIndex) + " cellIndex: " + (log_cellIndex - 1);
-        if (parseInt(document.getElementsByTagName("table")[0].children[rowIndex].children[cellIndex - 1].dataset.bomb)) counter++;
+        if (parseInt(document.querySelector("ul").querySelector("li[data-y='" + rowIndex + "']").querySelector("div[data-x='" + (cellIndex - 1) + "']").dataset.bomb)) counter++;
     }
 
     // Right
     if (cellIndex < max) {
         log += "\n[Right] rowIndex: " + (rowIndex) + " cellIndex: " + (cellIndex + 1);
-        if (parseInt(document.getElementsByTagName("table")[0].children[rowIndex].children[cellIndex + 1].dataset.bomb)) counter++;
+        if (parseInt(document.querySelector("ul").querySelector("li[data-y='" + rowIndex + "']").querySelector("div[data-x='" + (cellIndex + 1) + "']").dataset.bomb)) counter++;
     }
 
     log += "\nBombs around: " + counter;
@@ -120,10 +121,9 @@ const checkBombsAround = (dom_Td) => {
 }
 
 const discoverBombs = () => {
-    // console.log(document.getElementsByTagName("table")[0]);
     for (let y = 0; y < colSize; y++) {
         for (let x = 0; x < colSize; x++) {
-            let el = document.getElementsByTagName("table")[0].children[y].children[x];
+            let el = document.querySelector("ul").querySelector("li[data-y='" + y + "']").querySelector("div[data-x='" + x + "']")
             if (parseInt(el.dataset.bomb)) el.classList.add("boom");
             // console.log(y, x, el);
         }
@@ -131,24 +131,23 @@ const discoverBombs = () => {
 }
 
 const isClicked = (dom_Td) => {
-    console.log(dom_Td);
     if (dom_Td.classList.length > 0) return true;
     return false;
 }
 
-const clickEvent = (dom_Td) => {
+const clickEvent = (dom_Tr, dom_Td) => {
     dom_Td.addEventListener("click", () => {
         if (isClicked(dom_Td) || gameOver) return;
         if (!parseInt(dom_Td.dataset.bomb)) {
             dom_Td.classList.add("good");
             score++;
-            console.log(score);
-            // checkBombsAround(dom_Td);
+            // console.log(score);
+            checkBombsAround(dom_Tr, dom_Td);
             if ((cellClicked.length + cellBombs.length) >= gridSize) {
                 gameOver = true;
                 let log = "Hai vinto!";
                 log += "\nPunteggio: " + score;
-                // discoverBombs();
+                discoverBombs();
                 setTimeout(() => {
                     alert(log);
                     location.reload();
@@ -160,7 +159,7 @@ const clickEvent = (dom_Td) => {
             gameOver = true;
             let log = "Hai perso!";
             log += "\nPunteggio: " + score;
-            // discoverBombs();
+            discoverBombs();
             setTimeout(() => {
                 alert(log);
                 location.reload();
@@ -177,16 +176,18 @@ const genGrid = () => {
     dom_Game.appendChild(dom_Table);
     for (let y = 0; y < colSize; y++) {
         dom_Tr = document.createElement("li");
+        dom_Tr.dataset.y = y;
         dom_Tr.style.height = "calc(100% / " + colSize + ")";
+        // console.log(dom_Tr);
         for (let x = 0; x < colSize; x++) {
             dom_Td = document.createElement("div");
-            dom_Td.style.width = "calc(100% / " + colSize + ")";
-            dom_Td.dataset.y = y;
             dom_Td.dataset.x = x;
+            dom_Td.style.width = "calc(100% / " + colSize + ")";
             if (cellBombs.includes(counter)) dom_Td.dataset.bomb = 1;
             else dom_Td.dataset.bomb = 0;
+            // console.log(dom_Td);
             dom_Tr.appendChild(dom_Td);
-            clickEvent(dom_Td);
+            clickEvent(dom_Tr, dom_Td);
             counter++;
         }
         dom_Table.appendChild(dom_Tr);
