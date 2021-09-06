@@ -3,20 +3,18 @@ const dom_Game = document.getElementById("game");
 
 // Parametri
 const bombs = 16;
+const timeout = 0;
 let score = 0;
 let colSize = 10;
 let gridSize = colSize * colSize;
 let gameOver = false;
 let cellClicked = [];
 let cellBombs = [];
-let ricorsive = 8;
 
 // Functions
 
-const clickCellsAround = (dom_Td) => {
-    let rowIndex = parseInt(dom_Td.parentNode.rowIndex);
+const clickCellsAround = (rowIndex, cellIndex) => {
     let log_rowIndex = rowIndex + 1;
-    let cellIndex = parseInt(dom_Td.cellIndex);
     let log_cellIndex = cellIndex + 1;
     let min = 0;
     let max = colSize - 1;
@@ -24,28 +22,28 @@ const clickCellsAround = (dom_Td) => {
     let log = "[Target] rowIndex: " + log_rowIndex + " cellIndex: " + log_cellIndex;
 
     // Up
-    if (rowIndex > min) document.getElementsByTagName("table")[0].children[rowIndex - 1].children[cellIndex].click();
+    if (rowIndex > min) document.querySelector("ul").querySelector("li[data-y='" + (rowIndex - 1) + "']").querySelector("div[data-x='" + cellIndex + "']").click();
 
     // UpLeft
-    if (rowIndex > min && cellIndex > min) document.getElementsByTagName("table")[0].children[rowIndex - 1].children[cellIndex - 1].click();
+    if (rowIndex > min && cellIndex > min) document.querySelector("ul").querySelector("li[data-y='" + (rowIndex - 1) + "']").querySelector("div[data-x='" + (cellIndex - 1) + "']").click();
 
     // UpRight
-    if (rowIndex > min && cellIndex < max) document.getElementsByTagName("table")[0].children[rowIndex - 1].children[cellIndex + 1].click();
+    if (rowIndex > min && cellIndex < max) document.querySelector("ul").querySelector("li[data-y='" + (rowIndex - 1) + "']").querySelector("div[data-x='" + (cellIndex + 1) + "']").click();
 
     // Down
-    if (rowIndex < max) document.getElementsByTagName("table")[0].children[rowIndex + 1].children[cellIndex].click();
+    if (rowIndex < max) document.querySelector("ul").querySelector("li[data-y='" + (rowIndex + 1) + "']").querySelector("div[data-x='" + cellIndex + "']").click();
 
     // DownLeft
-    if (rowIndex < max && cellIndex > min) document.getElementsByTagName("table")[0].children[rowIndex + 1].children[cellIndex - 1].click();
+    if (rowIndex < max && cellIndex > min) document.querySelector("ul").querySelector("li[data-y='" + (rowIndex + 1) + "']").querySelector("div[data-x='" + (cellIndex - 1) + "']").click();
 
     // DownRight
-    if (rowIndex < max && cellIndex < max) document.getElementsByTagName("table")[0].children[rowIndex + 1].children[cellIndex + 1].click();
+    if (rowIndex < max && cellIndex < max) document.querySelector("ul").querySelector("li[data-y='" + (rowIndex + 1) + "']").querySelector("div[data-x='" + (cellIndex + 1) + "']").click();
 
     // Left
-    if (cellIndex > min) document.getElementsByTagName("table")[0].children[rowIndex].children[cellIndex - 1].click();
+    if (cellIndex > min) document.querySelector("ul").querySelector("li[data-y='" + rowIndex + "']").querySelector("div[data-x='" + (cellIndex - 1) + "']").click();
 
     // Right
-    if (cellIndex < max) document.getElementsByTagName("table")[0].children[rowIndex].children[cellIndex + 1].click();
+    if (cellIndex < max) document.querySelector("ul").querySelector("li[data-y='" + rowIndex + "']").querySelector("div[data-x='" + (cellIndex + 1) + "']").click();
 
 }
 
@@ -110,11 +108,13 @@ const checkBombsAround = (dom_Tr, dom_Td) => {
 
     log += "\nBombs around: " + counter;
 
-    dom_Td.innerHTML = counter;
+    // dom_Td.innerHTML = counter;
 
     // FIXME Errore ricorsivo
-    // if (counter != 0) dom_Td.innerHTML = counter;
-    // else clickCellsAround(dom_Td);
+    if (counter != 0) dom_Td.innerHTML = counter;
+    else setTimeout(() => {
+        clickCellsAround(rowIndex, cellIndex);
+    }, timeout);
 
     // console.log(log);
 
@@ -130,14 +130,15 @@ const discoverBombs = () => {
     }
 }
 
-const isClicked = (dom_Td) => {
+const isClicked = (dom_Tr, dom_Td) => {
     if (dom_Td.classList.length > 0) return true;
+    cellClicked.push([dom_Tr.dataset.y, dom_Td.dataset.x]);
     return false;
 }
 
 const clickEvent = (dom_Tr, dom_Td) => {
     dom_Td.addEventListener("click", () => {
-        if (isClicked(dom_Td) || gameOver) return;
+        if (isClicked(dom_Tr, dom_Td) || gameOver) return;
         if (!parseInt(dom_Td.dataset.bomb)) {
             dom_Td.classList.add("good");
             score++;
