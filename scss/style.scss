@@ -22,28 +22,35 @@ ul {
     justify-content: center;
     align-items: center;
 
-    > table {
+    > ul {
         // display: table;
         // flex-wrap: wrap;
         // table-layout: fixed;
         width: (100vmin / 1.2);
         height: (100vmin / 1.2);
         border: 0.2em solid blue;
-        text-align: center;
+        // text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        list-style: none;
 
-        tr {
-            // width: 100%;
-            // height: 100%;
+        > li {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
 
-            > td {
+            > div {
                 border: 0.2em solid blue;
+                // flex-grow: 1;
+                // width: (100% / 10);
 
-                &:empty {
+                /* &:empty {
 
                     &::before {
                         content: "\00a0";
                     }
-                }
+                } */
 
                 &.good {
                     background-color:  green;

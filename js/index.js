@@ -51,9 +51,9 @@ const clickCellsAround = (dom_Td) => {
 
 const checkBombsAround = (dom_Td) => {
     let counter = 0;
-    let rowIndex = parseInt(dom_Td.parentNode.rowIndex);
+    let rowIndex = parseInt(dom_Td.dataset.y);
     let log_rowIndex = rowIndex + 1;
-    let cellIndex = parseInt(dom_Td.cellIndex);
+    let cellIndex = parseInt(dom_Td.dataset.x);
     let log_cellIndex = cellIndex + 1;
     let min = 0;
     let max = colSize - 1;
@@ -131,14 +131,8 @@ const discoverBombs = () => {
 }
 
 const isClicked = (dom_Td) => {
-
-    let rowIndex = parseInt(dom_Td.parentNode.rowIndex + 1);
-    let cellIndex = parseInt(dom_Td.cellIndex + 1);
-    for (let i = 0; i < cellClicked.length; i++) {
-        let el = cellClicked[i];
-        if (el[0] == rowIndex && el[1] == cellIndex) return true;
-    }
-    cellClicked.push([rowIndex, cellIndex]);
+    console.log(dom_Td);
+    if (dom_Td.classList.length > 0) return true;
     return false;
 }
 
@@ -149,12 +143,12 @@ const clickEvent = (dom_Td) => {
             dom_Td.classList.add("good");
             score++;
             console.log(score);
-            checkBombsAround(dom_Td);
+            // checkBombsAround(dom_Td);
             if ((cellClicked.length + cellBombs.length) >= gridSize) {
                 gameOver = true;
                 let log = "Hai vinto!";
                 log += "\nPunteggio: " + score;
-                discoverBombs();
+                // discoverBombs();
                 setTimeout(() => {
                     alert(log);
                     location.reload();
@@ -166,7 +160,7 @@ const clickEvent = (dom_Td) => {
             gameOver = true;
             let log = "Hai perso!";
             log += "\nPunteggio: " + score;
-            discoverBombs();
+            // discoverBombs();
             setTimeout(() => {
                 alert(log);
                 location.reload();
@@ -176,15 +170,17 @@ const clickEvent = (dom_Td) => {
 }
 
 const genGrid = () => {
-    let dom_Table = document.createElement("table");
+    let dom_Table = document.createElement("ul");
     let dom_Tr;
     let dom_Td;
     let counter = 1;
     dom_Game.appendChild(dom_Table);
     for (let y = 0; y < colSize; y++) {
-        dom_Tr = document.createElement("tr");
+        dom_Tr = document.createElement("li");
+        dom_Tr.style.height = "calc(100% / " + colSize + ")";
         for (let x = 0; x < colSize; x++) {
-            dom_Td = document.createElement("td");
+            dom_Td = document.createElement("div");
+            dom_Td.style.width = "calc(100% / " + colSize + ")";
             dom_Td.dataset.y = y;
             dom_Td.dataset.x = x;
             if (cellBombs.includes(counter)) dom_Td.dataset.bomb = 1;
@@ -194,10 +190,6 @@ const genGrid = () => {
             counter++;
         }
         dom_Table.appendChild(dom_Tr);
-
-        // Style 
-        dom_Td.style.width = "calc(100% / " + colSize + ")";
-        dom_Td.style.height = "calc(100% / " + colSize + ")";
     }
 }
 
