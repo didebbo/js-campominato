@@ -1,5 +1,7 @@
 // DOM
-const dom_Game = document.getElementById("game");
+const dom_Game = document.getElementById("grid");
+const punteggio = document.getElementById("punteggio");
+const btnRefresh = document.getElementById("refresh");
 
 // Parametri
 const bombs = 16;
@@ -108,9 +110,6 @@ const checkBombsAround = (dom_Tr, dom_Td) => {
 
     log += "\nBombs around: " + counter;
 
-    // dom_Td.innerHTML = counter;
-
-    // FIXME Errore ricorsivo
     if (counter != 0) dom_Td.innerHTML = counter;
     else setTimeout(() => {
         clickCellsAround(rowIndex, cellIndex);
@@ -136,6 +135,15 @@ const isClicked = (dom_Tr, dom_Td) => {
     return false;
 }
 
+const refreshScore = (score) => {
+    if (score <= 9) punteggio.innerHTML = "00" + score;
+    else if (score <= 99) punteggio.innerHTML = "0" + score;
+}
+
+// const wheelEvent = (dom_Tr, dom_Td) => {
+
+// }
+
 const clickEvent = (dom_Tr, dom_Td) => {
     dom_Td.addEventListener("click", () => {
         if (isClicked(dom_Tr, dom_Td) || gameOver) return;
@@ -143,6 +151,7 @@ const clickEvent = (dom_Tr, dom_Td) => {
             dom_Td.classList.add("good");
             score++;
             // console.log(score);
+            refreshScore(score);
             checkBombsAround(dom_Tr, dom_Td);
             if ((cellClicked.length + cellBombs.length) >= gridSize) {
                 gameOver = true;
@@ -151,7 +160,7 @@ const clickEvent = (dom_Tr, dom_Td) => {
                 discoverBombs();
                 setTimeout(() => {
                     alert(log);
-                    location.reload();
+                    // location.reload();
                 }, 100);
             }
         }
@@ -163,7 +172,7 @@ const clickEvent = (dom_Tr, dom_Td) => {
             discoverBombs();
             setTimeout(() => {
                 alert(log);
-                location.reload();
+                // location.reload();
             }, 100);
         }
     })
@@ -189,6 +198,7 @@ const genGrid = () => {
             // console.log(dom_Td);
             dom_Tr.appendChild(dom_Td);
             clickEvent(dom_Tr, dom_Td);
+            wheelEvent(dom_Tr, dom_Td);
             counter++;
         }
         dom_Table.appendChild(dom_Tr);
@@ -217,10 +227,14 @@ const createGrid = (level) => {
     genGrid();
 }
 
+btnRefresh.addEventListener("click", () => {
+    location.reload();
+});
 const main = () => {
     let level;
     let msg = "Inserisci livello di difficoltà";
-    msg += "\nMin: 1 - Max: 3"
+    msg += "\nMin: 1 - Max: 3";
+    punteggio.innerHTML = "000";
     do level = parseInt(prompt(msg));
     while (isNaN(level) || level < 1 || level > 3);
     createGrid(level);

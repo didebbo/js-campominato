@@ -1,17 +1,27 @@
 * { margin: 0; padding: 0; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
-body { font-size: 3vmin; font-family: monospace; }
+body { font-size: 3vmin; font-family: monospace; display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; align-items: center; height: 100vh; }
 
 ul { list-style: none; }
 
-#game { width: 100%; height: 100vh; display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; align-items: center; }
+#game { width: 83.33333vmin; height: 83.33333vmin; display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-orient: vertical; -webkit-box-direction: normal; -ms-flex-direction: column; flex-direction: column; -webkit-box-pack: start; -ms-flex-pack: start; justify-content: flex-start; -webkit-box-align: start; -ms-flex-align: start; align-items: flex-start; background-color: lightgray; }
 
-#game > ul { width: 83.33333vmin; height: 83.33333vmin; border: 0.2em solid blue; display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-orient: vertical; -webkit-box-direction: normal; -ms-flex-direction: column; flex-direction: column; -webkit-box-pack: start; -ms-flex-pack: start; justify-content: flex-start; list-style: none; }
+#game .head { width: 100%; display: -webkit-box; display: -ms-flexbox; display: flex; border: 0.2em solid gray; padding: 0.5em; -webkit-box-pack: justify; -ms-flex-pack: justify; justify-content: space-between; }
 
-#game > ul > li { width: 100%; display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-pack: start; -ms-flex-pack: start; justify-content: flex-start; }
+#game .head #punteggio { display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; align-items: center; background-color: black; color: red; padding: 0.5em; font-size: 1.2em; cursor: pointer; }
 
-#game > ul > li > div { border: 0.2em solid blue; display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; align-items: center; color: white; }
+#game .head #refresh { display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; align-items: center; padding: 1em; border: none; }
 
-#game > ul > li > div.good { background-color: green; }
+#game .body { border: 0.2em solid gray; width: 100%; -webkit-box-flex: 1; -ms-flex-positive: 1; flex-grow: 1; }
 
-#game > ul > li > div.boom { background-color: red; }
+#game .body > ul { width: 100%; height: 100%; display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-orient: vertical; -webkit-box-direction: normal; -ms-flex-direction: column; flex-direction: column; -webkit-box-pack: start; -ms-flex-pack: start; justify-content: flex-start; list-style: none; }
+
+#game .body > ul > li { width: 100%; display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-pack: start; -ms-flex-pack: start; justify-content: flex-start; }
+
+#game .body > ul > li > div { border: 0.2em solid gray; display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; align-items: center; color: white; }
+
+#game .body > ul > li > div.good { background-color: green; }
+
+#game .body > ul > li > div.boom { position: relative; background-color: red; }
+
+#game .body > ul > li > div.boom::after { position: absolute; top: 50%; left: 50%; -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%); content: "\f1e2"; font-family: "Font Awesome 5 Free"; font-weight: 900; font-size: 2em; }
