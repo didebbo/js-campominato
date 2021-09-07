@@ -118,6 +118,7 @@ const checkBombsAround = (dom_Tr, dom_Td) => {
         if (counter > 2) dom_Td.style.color = "red";
     }
     else setTimeout(() => {
+        dom_Td.innerHTML = "";
         clickCellsAround(rowIndex, cellIndex);
     }, timeout);
 
@@ -150,9 +151,10 @@ const refreshScore = (score) => {
 }
 
 const wheelEvent = (dom_Tr, dom_Td) => {
-    dom_Td.addEventListener("mousedown", (e) => {
+    dom_Td.addEventListener("contextmenu", (e) => {
+        e.preventDefault();
         if (isClicked(dom_Tr, dom_Td) || gameOver) return;
-        if (e.button == 1) if (dom_Td.innerHTML == "") dom_Td.innerHTML = "<i class=\"fas fa-flag\"></i>";
+        if (dom_Td.innerHTML == "") dom_Td.innerHTML = "<i class=\"fas fa-flag\"></i>";
         else dom_Td.innerHTML = "";
     });
 }
