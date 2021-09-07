@@ -34,7 +34,7 @@ ul {
         padding: 0.5em;
         justify-content: space-between;
         
-        #punteggio {
+        #punteggio,#timer {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -86,24 +86,21 @@ ul {
                     }
 
                     &.good {
-                        background-color:  green;
+                        // border-color: darkgrey;
+                        background-color:  darkgrey;
                         color: white;
                     }
 
                     &.boom {
                         // position: relative;
-                        background-color: red;
+                        background-color:  darkgrey;
 
                         &::after {
-                            // position: absolute;
-                            // top: 50%;
-                            // left: 50%;
-                            // transform: translate(-50%, -50%);
                             content: "\f1e2";
                             font-family: "Font Awesome 5 Free"; 
                             font-weight: 900;
                             font-size: 1.5em; 
-                            color: white;
+                            color: black;
                         }
                     }
                 }
