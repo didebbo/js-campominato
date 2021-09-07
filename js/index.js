@@ -1,5 +1,6 @@
 // DOM
 const dom_Game = document.getElementById("grid");
+const dom_timer = document.getElementById("timer");
 const punteggio = document.getElementById("punteggio");
 const btnRefresh = document.getElementById("refresh");
 
@@ -110,7 +111,12 @@ const checkBombsAround = (dom_Tr, dom_Td) => {
 
     log += "\nBombs around: " + counter;
 
-    if (counter != 0) dom_Td.innerHTML = counter;
+    if (counter != 0) {
+        dom_Td.innerHTML = counter;
+        if (counter > 0) dom_Td.style.color = "green";
+        if (counter > 1) dom_Td.style.color = "blue";
+        if (counter > 2) dom_Td.style.color = "red";
+    }
     else setTimeout(() => {
         clickCellsAround(rowIndex, cellIndex);
     }, timeout);
@@ -237,7 +243,20 @@ const createGrid = (level) => {
 btnRefresh.addEventListener("click", () => {
     location.reload();
 });
+
+const runTimer = (currentTime) => {
+    const timer = setInterval(() => {
+        if (currentTime <= 9) dom_timer.innerHTML = "00" + currentTime;
+        else if (currentTime <= 99) dom_timer.innerHTML = "0" + currentTime;
+        else dom_timer.innerHTML = currentTime;
+        currentTime++;
+        if (currentTime > 999) gameOver = true;
+        if (gameOver) clearInterval(timer);
+    }, 1000);
+}
+
 const main = () => {
+    let currentTime = 0;
     let level;
     let msg = "Inserisci livello di difficoltà";
     msg += "\nMin: 1 - Max: 3";
@@ -245,6 +264,7 @@ const main = () => {
     do level = parseInt(prompt(msg));
     while (isNaN(level) || level < 1 || level > 3);
     createGrid(level);
+    runTimer(currentTime);
 }
 
 

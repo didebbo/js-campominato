@@ -8,7 +8,7 @@ ul { list-style: none; }
 
 #game .head { width: 100%; display: -webkit-box; display: -ms-flexbox; display: flex; border: 0.2em solid gray; padding: 0.5em; -webkit-box-pack: justify; -ms-flex-pack: justify; justify-content: space-between; }
 
-#game .head #punteggio { display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; align-items: center; background-color: black; color: red; padding: 0.5em; font-size: 1.2em; cursor: pointer; }
+#game .head #punteggio, #game .head #timer { display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; align-items: center; background-color: black; color: red; padding: 0.5em; font-size: 1.2em; cursor: pointer; }
 
 #game .head #refresh { display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; align-items: center; padding: 1em; border: none; }
 
@@ -22,8 +22,8 @@ ul { list-style: none; }
 
 #game .body > ul > li > div i { font-size: 1.5em; color: green; }
 
-#game .body > ul > li > div.good { background-color: green; color: white; }
+#game .body > ul > li > div.good { background-color: darkgrey; color: white; }
 
-#game .body > ul > li > div.boom { background-color: red; }
+#game .body > ul > li > div.boom { background-color: darkgrey; }
 
-#game .body > ul > li > div.boom::after { content: "\f1e2"; font-family: "Font Awesome 5 Free"; font-weight: 900; font-size: 1.5em; color: white; }
+#game .body > ul > li > div.boom::after { content: "\f1e2"; font-family: "Font Awesome 5 Free"; font-weight: 900; font-size: 1.5em; color: black; }
