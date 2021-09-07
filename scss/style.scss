@@ -79,25 +79,31 @@ ul {
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    color: white;
+
+                    i {
+                        font-size: 1.5em;
+                        color: green;   
+                    }
 
                     &.good {
                         background-color:  green;
+                        color: white;
                     }
 
                     &.boom {
-                        position: relative;
+                        // position: relative;
                         background-color: red;
 
                         &::after {
-                            position: absolute;
-                            top: 50%;
-                            left: 50%;
-                            transform: translate(-50%, -50%);
+                            // position: absolute;
+                            // top: 50%;
+                            // left: 50%;
+                            // transform: translate(-50%, -50%);
                             content: "\f1e2";
                             font-family: "Font Awesome 5 Free"; 
                             font-weight: 900;
-                            font-size: 2em; 
+                            font-size: 1.5em; 
+                            color: white;
                         }
                     }
                 }

@@ -18,10 +18,12 @@ ul { list-style: none; }
 
 #game .body > ul > li { width: 100%; display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-pack: start; -ms-flex-pack: start; justify-content: flex-start; }
 
-#game .body > ul > li > div { border: 0.2em solid gray; display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; align-items: center; color: white; }
+#game .body > ul > li > div { border: 0.2em solid gray; display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; align-items: center; }
 
-#game .body > ul > li > div.good { background-color: green; }
+#game .body > ul > li > div i { font-size: 1.5em; color: green; }
 
-#game .body > ul > li > div.boom { position: relative; background-color: red; }
+#game .body > ul > li > div.good { background-color: green; color: white; }
 
-#game .body > ul > li > div.boom::after { position: absolute; top: 50%; left: 50%; -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%); content: "\f1e2"; font-family: "Font Awesome 5 Free"; font-weight: 900; font-size: 2em; }
+#game .body > ul > li > div.boom { background-color: red; }
+
+#game .body > ul > li > div.boom::after { content: "\f1e2"; font-family: "Font Awesome 5 Free"; font-weight: 900; font-size: 1.5em; color: white; }

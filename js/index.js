@@ -123,7 +123,10 @@ const discoverBombs = () => {
     for (let y = 0; y < colSize; y++) {
         for (let x = 0; x < colSize; x++) {
             let el = document.querySelector("ul").querySelector("li[data-y='" + y + "']").querySelector("div[data-x='" + x + "']")
-            if (parseInt(el.dataset.bomb)) el.classList.add("boom");
+            if (parseInt(el.dataset.bomb)) {
+                el.innerHTML = "";
+                el.classList.add("boom");
+            }
             // console.log(y, x, el);
         }
     }
@@ -140,9 +143,13 @@ const refreshScore = (score) => {
     else if (score <= 99) punteggio.innerHTML = "0" + score;
 }
 
-// const wheelEvent = (dom_Tr, dom_Td) => {
-
-// }
+const wheelEvent = (dom_Tr, dom_Td) => {
+    dom_Td.addEventListener("mousedown", (e) => {
+        if (isClicked(dom_Tr, dom_Td) || gameOver) return;
+        if (e.button == 1) if (dom_Td.innerHTML == "") dom_Td.innerHTML = "<i class=\"fas fa-flag\"></i>";
+        else dom_Td.innerHTML = "";
+    });
+}
 
 const clickEvent = (dom_Tr, dom_Td) => {
     dom_Td.addEventListener("click", () => {
