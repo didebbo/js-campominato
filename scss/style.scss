@@ -33,6 +33,7 @@ ul {
         border: 0.2em solid gray;
         padding: 0.5em;
         justify-content: space-between;
+        align-items: center;
         
         #punteggio,#timer {
             display: flex;
@@ -45,14 +46,40 @@ ul {
             cursor: pointer;
         }
 
-        #refresh {
+        .buttons {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 0.5em;
-            border: none;
-            font-size: 1.1em;
-            color: green;
+
+            > * {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin: 0 0.2em;
+                padding: 0.5em;
+                border: none;
+                font-size: 1.2em;
+                cursor: pointer;
+
+                &:focus {
+                    outline: none;
+                }
+            }
+
+            .level {
+
+                &.disabled {
+                    background-color: darkgrey;
+                }
+
+                &.selected {
+                    background-color: green;
+                    color: white;
+                }
+
+            }
+
+            #refresh {
+                color: green;
+            }
         }
     }
 

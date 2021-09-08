@@ -2,6 +2,7 @@
 const dom_Game = document.getElementById("grid");
 const dom_timer = document.getElementById("timer");
 const punteggio = document.getElementById("punteggio");
+const btnLevels = document.getElementsByClassName("level");
 const btnRefresh = document.getElementById("refresh");
 
 // Parametri
@@ -10,9 +11,12 @@ const timeout = 0;
 let score = 0;
 let colSize = 10;
 let gridSize = colSize * colSize;
-let gameOver = false;
+let gameOver = true;
+let levelSelected = false;
 let cellClicked = [];
 let cellBombs = [];
+let currentTime = 0;
+let level = 1;
 
 // Functions
 
@@ -170,25 +174,13 @@ const clickEvent = (dom_Tr, dom_Td) => {
             checkBombsAround(dom_Tr, dom_Td);
             if ((cellClicked.length + cellBombs.length) >= gridSize) {
                 gameOver = true;
-                let log = "Hai vinto!";
-                log += "\nPunteggio: " + score;
                 discoverBombs();
-                setTimeout(() => {
-                    alert(log);
-                    // location.reload();
-                }, 100);
             }
         }
         else {
             dom_Td.classList.add("boom");
             gameOver = true;
-            let log = "Hai perso!";
-            log += "\nPunteggio: " + score;
             discoverBombs();
-            setTimeout(() => {
-                alert(log);
-                // location.reload();
-            }, 100);
         }
     })
 }
@@ -246,7 +238,11 @@ btnRefresh.addEventListener("click", () => {
     location.reload();
 });
 
-const runTimer = (currentTime) => {
+const runTimer = () => {
+    for (let i = 0; i < btnLevels.length; i++) {
+        btnLevels[i].classList.add("disabled");
+    }
+
     const timer = setInterval(() => {
         if (currentTime <= 9) dom_timer.innerHTML = "00" + currentTime;
         else if (currentTime <= 99) dom_timer.innerHTML = "0" + currentTime;
@@ -257,16 +253,22 @@ const runTimer = (currentTime) => {
     }, 1000);
 }
 
+const eventLevel = (level) => {
+    for (let i = 0; i < btnLevels.length; i++) {
+        btnLevels[i].addEventListener("click", (e) => {
+            if (levelSelected) return;
+            levelSelected = true;
+            gameOver = false;
+            level = btnLevels[i].innerHTML;
+            createGrid(level);
+            runTimer();
+            btnLevels[i].classList.add("selected");
+        });
+    }
+}
+
 const main = () => {
-    let currentTime = 0;
-    let level;
-    let msg = "Inserisci livello di difficoltà";
-    msg += "\nMin: 1 - Max: 3";
-    punteggio.innerHTML = "000";
-    do level = parseInt(prompt(msg));
-    while (isNaN(level) || level < 1 || level > 3);
-    createGrid(level);
-    runTimer(currentTime);
+    eventLevel();
 }
 
 
