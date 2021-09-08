@@ -174,25 +174,13 @@ const clickEvent = (dom_Tr, dom_Td) => {
             checkBombsAround(dom_Tr, dom_Td);
             if ((cellClicked.length + cellBombs.length) >= gridSize) {
                 gameOver = true;
-                let log = "Hai vinto!";
-                log += "\nPunteggio: " + score;
                 discoverBombs();
-                setTimeout(() => {
-                    alert(log);
-                    // location.reload();
-                }, 100);
             }
         }
         else {
             dom_Td.classList.add("boom");
             gameOver = true;
-            let log = "Hai perso!";
-            log += "\nPunteggio: " + score;
             discoverBombs();
-            setTimeout(() => {
-                alert(log);
-                // location.reload();
-            }, 100);
         }
     })
 }
